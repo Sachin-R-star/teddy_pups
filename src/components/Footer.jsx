@@ -1,155 +1,229 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../data/siteConfig';
-import { PawIcon } from './Navbar';
 
 export default function Footer() {
   return (
-    <footer className="tp-footer relative pb-[calc(var(--bar-h)+2rem)] text-milk md:pb-10 overflow-hidden bg-[#1e100a]">
-      {/* Night hill backdrop curve */}
-      <div className="tp-footer__hill" aria-hidden="true" />
+    <footer className="tp-footer relative pb-[calc(var(--bar-h)+2rem)] text-milk md:pb-10">
+      {/* Curved rolling hill top edge */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        className="tp-footer__hill"
+      >
+        <path d="M0 80V44c120-30 240-44 360-30s240 46 360 34 240-58 360-46 240 40 360 26v52z" />
+      </svg>
 
-      {/* Twinkling stars */}
-      {[
-        { top: '15%', left: '12%', delay: '0s' },
-        { top: '25%', left: '28%', delay: '1.2s' },
-        { top: '18%', left: '72%', delay: '0.6s' },
-        { top: '35%', left: '88%', delay: '1.8s' },
-        { top: '10%', left: '50%', delay: '2.4s' }
-      ].map((star, i) => (
-        <span
-          key={i}
-          className="tp-twinkle absolute text-honey"
-          style={{ top: star.top, left: star.left, animationDelay: star.delay }}
-        >
-          ✦
-        </span>
-      ))}
-
-      {/* Moon */}
-      <div className="tp-moon absolute top-8 right-12 md:right-28" aria-hidden="true">
-        <svg viewBox="0 0 100 100" className="size-16 md:size-24 text-honey fill-current opacity-90 drop-shadow-[0_0_15px_rgba(251,227,180,0.4)]">
-          <circle cx="50" cy="50" r="45" fill="#fbe3b4" />
-          <circle cx="65" cy="40" r="38" fill="#1e100a" />
-        </svg>
-      </div>
-
-      {/* Woven Basket with sleeping pup */}
-      <div className="tp-basket mx-auto mt-6 mb-12 flex justify-center" aria-hidden="true">
-        <svg viewBox="0 0 240 160" className="w-56 h-auto drop-shadow-xl" fill="none">
-          {/* Basket back */}
-          <ellipse cx="120" cy="95" rx="85" ry="35" fill="#4a2c1d" />
-          {/* Sleeping pup curled up */}
-          <g transform="translate(65, 55)">
-            <ellipse cx="55" cy="45" rx="42" ry="28" fill="#f2be6b" stroke="#2a170e" strokeWidth="2.5" />
-            <circle cx="85" cy="40" r="22" fill="#f2be6b" stroke="#2a170e" strokeWidth="2.5" />
-            {/* Floppy ear */}
-            <path d="M78 30 C70 42 75 58 84 52" fill="#e4a352" stroke="#2a170e" strokeWidth="2" />
-            {/* Sleeping eyes */}
-            <path d="M88 42 Q92 46 96 42" stroke="#2a170e" strokeWidth="2.5" strokeLinecap="round" />
-            {/* Nose */}
-            <ellipse cx="98" cy="47" rx="3.5" ry="2.5" fill="#2a170e" />
-            {/* Little paw */}
-            <ellipse cx="40" cy="58" rx="8" ry="6" fill="#fbe3b4" stroke="#2a170e" strokeWidth="1.8" />
-            <path d="M48 30 Q35 25 30 35" stroke="#2a170e" strokeWidth="3" strokeLinecap="round" fill="none" />
-          </g>
-          {/* Basket front weave */}
-          <path d="M35 95 C35 135 70 150 120 150 C170 150 205 135 205 95 C205 85 170 80 120 80 C70 80 35 85 35 95 Z" fill="#8c532b" stroke="#2a170e" strokeWidth="3" />
-          {/* Basket rim */}
-          <ellipse cx="120" cy="92" rx="86" ry="14" fill="#a26335" stroke="#2a170e" strokeWidth="2.5" />
-          {/* Basket weave pattern lines */}
-          <path d="M50 105 C70 140 100 145 120 145 M80 98 C100 135 140 145 160 140 M120 95 C140 130 180 135 190 115" stroke="#68391b" strokeWidth="2" opacity="0.6" strokeDasharray="6 4" />
-        </svg>
-      </div>
-
-      <div className="gutter mx-auto max-w-7xl pt-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-milk/10">
-          {/* Brand Info */}
-          <div className="space-y-4">
-            <Link to="/" className="inline-flex items-center gap-3">
-              <img
-                src={siteConfig.logo}
-                alt="TeddyPups Logo"
-                className="size-12 rounded-full border-2 border-honey/40 bg-milk/10 p-1"
-              />
-              <span className="font-plush text-2xl text-honey">{siteConfig.brandName}</span>
-            </Link>
-            <p className="text-sm text-milk/80 leading-relaxed font-sans">
-              Ethically raised, health-guaranteed teacup & teddy bear puppies in Dubai. Experience the joy of meeting your new family member in our Downtown showroom.
-            </p>
-            <div className="pt-2">
-              <span className="font-scrawl text-xl text-honey">every puppy is family ♡</span>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-plush text-lg text-honey mb-4 flex items-center gap-2">
-              <PawIcon className="size-4 text-toffee inline" /> Navigation
-            </h3>
-            <ul className="space-y-2.5 text-sm text-milk/80">
-              {siteConfig.navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="hover:text-honey transition-colors inline-flex items-center gap-2"
-                  >
-                    <span>→</span> {link.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Showroom & Hours */}
-          <div>
-            <h3 className="font-plush text-lg text-honey mb-4 flex items-center gap-2">
-              <PawIcon className="size-4 text-toffee inline" /> Dubai Showroom
-            </h3>
-            <div className="space-y-3 text-sm text-milk/80">
-              <p>📍 {siteConfig.address}</p>
-              <p>🕒 {siteConfig.showroomHours}</p>
-              <p>Private VIP visits available upon prior appointment.</p>
-              <p className="pt-1">
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="hover:text-honey transition-colors text-xs text-honey/80 underline"
-                >
-                  {siteConfig.email}
-                </a>
-              </p>
-            </div>
-          </div>
-
-          {/* Instant Contact CTA */}
-          <div>
-            <h3 className="font-plush text-lg text-honey mb-4 flex items-center gap-2">
-              <PawIcon className="size-4 text-toffee inline" /> Say Hello
-            </h3>
-            <p className="text-sm text-milk/80 mb-4">
-              Connect directly with our puppy care advisors on WhatsApp:
-            </p>
-            <a
-              href={siteConfig.getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-whatsapp w-full text-center py-3 font-bold shadow-lg block hover:scale-[1.02] transition-transform"
+      {/* Starry Night Sky with Crescent Moon & Twinkling Stars */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-6 h-64 overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          {[
+            { left: '6%', top: '18%', width: '12.6px', delay: '0.00s' },
+            { left: '14%', top: '42%', width: '8.4px', delay: '0.40s' },
+            { left: '26%', top: '22%', width: '10.5px', delay: '0.80s' },
+            { left: '42%', top: '35%', width: '7px', delay: '1.20s' },
+            { left: '58%', top: '15%', width: '11.2px', delay: '0.20s' },
+            { left: '72%', top: '38%', width: '9.1px', delay: '0.60s' },
+            { left: '84%', top: '20%', width: '11.9px', delay: '1.00s' },
+            { left: '92%', top: '46%', width: '7.7px', delay: '1.40s' },
+            { left: '48%', top: '50%', width: '8.4px', delay: '1.60s' }
+          ].map((star, idx) => (
+            <svg
+              key={idx}
+              viewBox="0 0 40 40"
+              className="tp-twinkle absolute text-honey"
+              style={{ left: star.left, top: star.top, width: star.width, animationDelay: star.delay }}
+              aria-hidden="true"
             >
-              WhatsApp Us
-            </a>
-            <p className="text-center text-xs text-milk/60 mt-3">
-              Direct: {siteConfig.phone}
-            </p>
-          </div>
+              <path
+                d="M20 3c1.6 9.4 7.6 15.4 17 17-9.4 1.6-15.4 7.6-17 17-1.6-9.4-7.6-15.4-17-17 9.4-1.6 15.4-7.6 17-17z"
+                fill="currentColor"
+              />
+            </svg>
+          ))}
         </div>
+        <span className="tp-moon"></span>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-milk/60 gap-4">
-          <p>© {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved.</p>
-          <p className="flex items-center gap-1 font-sans">
-            Handcrafted with love for puppy lovers in UAE 🐾
+      <div className="gutter relative mx-auto grid max-w-[110rem] gap-12 pt-20 md:grid-cols-12 md:gap-x-12 md:gap-y-6 md:pt-28">
+        {/* Brand headline & summary */}
+        <div className="md:col-span-5">
+          <p className="font-plush text-big text-honey-soft">Home, at last.</p>
+          <p className="mt-5 max-w-md text-milk/80 font-sans leading-relaxed">
+            TeddyPups U.A.E. is a Dubai-based brand specializing in miniature puppies, offering premium services and worldwide shipping.
           </p>
         </div>
+
+        {/* Sleeping Teddy in Wicker Basket */}
+        <div className="order-last md:order-none md:col-span-5 md:col-start-1 md:row-start-2">
+          <div className="tp-basket">
+            <svg aria-hidden="true" viewBox="0 0 300 240" className="tp-basket__back">
+              <path
+                d="M116 145 C118 100 126 80 138 65 L286 65 C298 80 306 100 308 145 Z"
+                className="tp-basket__back-fill"
+              />
+            </svg>
+            <div
+              data-pup-stop="true"
+              data-pose="snug"
+              data-facing="right"
+              data-act="basket"
+              data-behind="true"
+              data-lane="true"
+              className="pup-stop tp-basket__pup"
+            >
+              <div className="pup-buddy" data-facing="right">
+                <svg viewBox="0 0 424 240" className="tp-buddy-svg w-36 h-auto">
+                  <ellipse cx="212" cy="140" rx="42" ry="28" fill="#f2be6b" stroke="#2a170e" strokeWidth="3" />
+                  <circle cx="212" cy="100" r="32" fill="#f2be6b" stroke="#2a170e" strokeWidth="3" />
+                  {/* Fluffy ears */}
+                  <ellipse cx="178" cy="105" rx="14" ry="20" fill="#e4a352" stroke="#2a170e" strokeWidth="2.5" />
+                  <ellipse cx="246" cy="105" rx="14" ry="20" fill="#e4a352" stroke="#2a170e" strokeWidth="2.5" />
+                  {/* Sleeping eyes curved */}
+                  <path d="M198 98 Q204 104 210 98" stroke="#2a170e" strokeWidth="3" strokeLinecap="round" fill="none" />
+                  <path d="M214 98 Q220 104 226 98" stroke="#2a170e" strokeWidth="3" strokeLinecap="round" fill="none" />
+                  {/* Cute snout & nose */}
+                  <ellipse cx="212" cy="108" rx="5" ry="3.5" fill="#2a170e" />
+                  <path d="M212 111.5 v 4" stroke="#2a170e" strokeWidth="2" strokeLinecap="round" />
+                  {/* Little blush cheeks */}
+                  <circle cx="192" cy="104" r="5" fill="#f9b9a6" opacity="0.8" />
+                  <circle cx="232" cy="104" r="5" fill="#f9b9a6" opacity="0.8" />
+                </svg>
+              </div>
+            </div>
+            <svg aria-hidden="true" viewBox="0 0 300 240" className="tp-basket__front">
+              <path
+                d="M116 145 C118 180 126 214 138 232 L286 232 C298 214 306 180 308 145 A96 12 0 0 1 116 145 Z"
+                className="tp-basket__body"
+              />
+              <path d="M121 178 Q212 197 303 178 M127 206 Q212 223 297 206" className="tp-basket__weave" />
+              <path
+                d="M150 164 L158 230 M182 168 L185 232 M212 169 V232 M242 168 L239 232 M274 164 L266 230"
+                className="tp-basket__weave tp-basket__weave--stakes"
+              />
+              <path d="M116 145 A96 12 0 0 0 308 145" className="tp-basket__rim-line" />
+              <path d="M116 145 A96 12 0 0 0 308 145" className="tp-basket__rim" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Explore Navigation Column */}
+        <nav aria-label="Footer" className="md:col-span-3 md:col-start-7 md:row-span-2 md:row-start-1">
+          <h2 className="font-scrawl text-lg text-honey">Explore</h2>
+          <ul className="mt-4 space-y-2.5 font-sans">
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/puppies">
+                Available puppies
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/gone-home">
+                Gone home
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/happy-families">
+                Happy families
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/how-it-works">
+                How it works
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/how-it-works#delivery">
+                Delivery &amp; collection
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/faq">
+                FAQ
+              </Link>
+            </li>
+            <li>
+              <Link className="font-semibold text-milk/90 underline-offset-4 hover:text-honey hover:underline" to="/contact">
+                Visit &amp; contact
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* Say hello Column */}
+        <div className="md:col-span-3 md:row-span-2 md:row-start-1">
+          <h2 className="font-scrawl text-lg text-honey">Say hello</h2>
+          <ul className="mt-4 space-y-2.5 text-milk/90 font-sans">
+            <li>
+              <a
+                className="font-semibold hover:text-honey"
+                href={siteConfig.getWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp {siteConfig.phone}
+              </a>
+            </li>
+            <li>
+              <a className="break-all hover:text-honey" href={`mailto:${siteConfig.email}`}>
+                {siteConfig.email}
+              </a>
+            </li>
+            <li>{siteConfig.address}</li>
+          </ul>
+
+          {/* Social Media Pill Buttons */}
+          <ul className="mt-6 flex flex-wrap gap-3 font-sans" aria-label="Social media">
+            <li>
+              <a
+                href="https://www.instagram.com/teddypups.worldwide/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center rounded-full border-2 border-milk/30 px-4 text-sm font-semibold hover:border-honey hover:text-honey transition-colors"
+              >
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.tiktok.com/@teddypupsuae"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center rounded-full border-2 border-milk/30 px-4 text-sm font-semibold hover:border-honey hover:text-honey transition-colors"
+              >
+                TikTok
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61567496944539"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-11 items-center rounded-full border-2 border-milk/30 px-4 text-sm font-semibold hover:border-honey hover:text-honey transition-colors"
+              >
+                Facebook
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Footer Bottom Bar with Logo & Tagline */}
+      <div className="gutter relative mx-auto mt-16 flex max-w-[110rem] flex-col items-start justify-between gap-4 border-t border-milk/15 pt-6 text-sm text-milk/60 md:flex-row md:items-center">
+        <span className="flex items-center gap-3">
+          <img
+            alt="TeddyPups Logo"
+            loading="lazy"
+            width="36"
+            height="36"
+            className="size-9 rounded-full object-cover"
+            src="https://puppy.instabizweb.com/brand/logo.png"
+          />
+          © 2026 TeddyPups U.A.E.
+        </span>
+        <span className="font-scrawl text-base text-honey/80">
+          every puppy is family
+        </span>
       </div>
     </footer>
   );
