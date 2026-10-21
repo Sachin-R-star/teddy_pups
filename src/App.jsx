@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Curtain from './components/Curtain';
+import PawCursor from './components/PawCursor';
 import Home from './pages/Home';
 import Puppies from './pages/Puppies';
 import PuppyDetail from './pages/PuppyDetail';
@@ -27,6 +28,9 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      {/* Custom Paw Cursor with trailing prints */}
+      <PawCursor />
+
       {/* Animated Curtain Intro on first load */}
       <Curtain />
 

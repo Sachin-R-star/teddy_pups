@@ -36,6 +36,43 @@ body {
   font-family: var(--font-scrawl) !important;
 }
 
+/* Custom Paw Cursor & Trailing Prints */
+@media (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active body,
+  html.custom-cursor-active a,
+  html.custom-cursor-active button,
+  html.custom-cursor-active input,
+  html.custom-cursor-active select,
+  html.custom-cursor-active textarea,
+  html.custom-cursor-active [role="button"],
+  html.custom-cursor-active .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
+.tp-paw-trail-item {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 99998;
+  animation: paw-print-fade 0.95s cubic-bezier(0.2, 0, 0.4, 1) forwards;
+}
+
+@keyframes paw-print-fade {
+  0% {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  40% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+}
+
 /* Modal and dialog helpers */
 dialog::backdrop {
   background: rgba(42, 23, 14, 0.45);
