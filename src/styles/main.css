@@ -31,6 +31,19 @@
   display: block !important;
 }
 
+.tp-header__logo {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  border-radius: 9999px !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
 body {
   margin: 0;
   padding: 0;
