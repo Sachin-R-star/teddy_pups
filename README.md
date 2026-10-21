@@ -6,7 +6,7 @@ A complete, pixel-accurate clone of the luxury boutique pet adoption website [Te
 
 ## 🌟 Live Demo & Source Code
 - **Live Deployment URL**: `[YOUR_VERCEL_OR_NETLIFY_URL_HERE]`
-- **GitHub Repository**: `[YOUR_GITHUB_REPOSITORY_URL_HERE]`
+- **GitHub Repository**: [https://github.com/Sachin-R-star/teddy_pups](https://github.com/Sachin-R-star/teddy_pups)
 - **Loom Walkthrough Video**: `[YOUR_LOOM_VIDEO_URL_HERE]`
 
 ---
