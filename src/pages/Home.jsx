@@ -4,6 +4,7 @@ import { siteConfig } from '../data/siteConfig';
 import { puppiesData } from '../data/puppies';
 import { polaroidsData } from '../data/polaroids';
 import { faqsData } from '../data/faqs';
+import HeroStage from '../components/HeroStage';
 import PuppyCard from '../components/PuppyCard';
 import DoorRoom from '../components/DoorRoom';
 import PhoneChat from '../components/PhoneChat';
@@ -20,69 +21,54 @@ export default function Home() {
 
   return (
     <div data-page="home" className="tp-page">
-      {/* 1. HERO SECTION */}
-      <section id="hero-title" className="tp-scene tp-hero relative pt-12 pb-20 md:py-24 overflow-hidden">
+      {/* 1. HERO SECTION (EXACT REFERENCE MATCH) */}
+      <section id="hero-title" className="tp-scene tp-hero relative pt-8 pb-0 overflow-hidden bg-[#fffdf8]">
         {/* Decorative Golden Sun */}
         <div className="tp-hero__sun absolute top-6 right-10 md:right-24 size-32 md:size-48 rounded-full bg-honey/40 blur-2xl pointer-events-none" />
 
         <div className="gutter mx-auto max-w-7xl relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-honey/60 text-cocoa font-bold text-xs md:text-sm mb-6 border border-cocoa/10 shadow-sm">
-            <PawIcon className="size-4 text-toffee-deep" />
-            <span>Dubai's Boutique Teacup & Miniature Puppies</span>
+          {/* Note: "every puppy is family" with cute hand-drawn scribble wave underline */}
+          <div className="inline-block relative mb-3">
+            <span className="tp-hero__note font-scrawl text-2xl sm:text-3xl text-toffee-deep font-bold relative inline-block">
+              every puppy is family
+              <svg viewBox="0 0 220 24" preserveAspectRatio="none" className="absolute -bottom-2.5 left-0 h-3.5 w-full text-toffee-deep" aria-hidden="true">
+                <path d="M4 14c18-10 30 8 48-1s28-9 46 0 30 8 48-1 30-9 48 0 18 2 22 0" fill="none" stroke="#c2622b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </div>
 
-          <h1 className="font-plush text-4xl sm:text-6xl md:text-7xl font-extrabold text-cocoa leading-[1.08] tracking-tight max-w-4xl mx-auto">
-            Premium teacup <br className="hidden sm:inline" />
-            <span className="text-toffee-deep italic">puppies</span> in Dubai
+          {/* Headline */}
+          <h1 className="tp-hero__title font-plush text-5xl sm:text-7xl md:text-8xl font-black text-cocoa leading-[1.05] tracking-tight max-w-4xl mx-auto mt-2">
+            <span className="tp-hero__line block">Premium teacup</span>
+            <span className="tp-hero__line tp-hero__line--2 block">puppies in Dubai</span>
           </h1>
 
-          <p className="font-sans text-base sm:text-xl text-cocoa/80 max-w-2xl mx-auto mt-6 leading-relaxed">
-            Teddy bear & teacup companions raised with tender love. Meet our local puppies in our Downtown Dubai showroom or reserve a rare breed imported from ethical world-class breeders.
+          {/* Subtitle */}
+          <p className="tp-hero__lede font-sans text-base sm:text-xl text-cocoa/80 max-w-2xl mx-auto mt-5 leading-relaxed">
+            Meet your new best friend in our Dubai showroom, or order a rare miniature breed from trusted breeders worldwide.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          {/* Action Buttons */}
+          <div className="tp-hero__actions mt-7 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/puppies"
-              className="btn btn-primary px-8 py-3.5 rounded-full font-bold text-milk bg-cocoa hover:bg-toffee-deep transition-all shadow-lg hover:scale-105 flex items-center gap-2"
+              className="btn btn-primary px-8 py-3.5 rounded-full font-bold text-milk bg-[#8c3b16] hover:bg-[#732f11] transition-all shadow-md hover:scale-105 inline-block text-base"
             >
-              <PawIcon className="size-5 text-honey" />
-              <span>Explore available puppies</span>
+              View available puppies
             </Link>
             <a
               href={siteConfig.getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-whatsapp px-8 py-3.5 rounded-full font-bold shadow-lg hover:scale-105 transition-all"
+              className="btn btn-ghost px-8 py-3.5 rounded-full font-bold text-cocoa bg-[#fffdf8] border-2 border-cocoa hover:bg-honey/30 transition-all shadow-sm hover:scale-105 inline-block text-base"
             >
-              WhatsApp showroom
+              Enquire on WhatsApp
             </a>
           </div>
-
-          {/* Trust badges strip */}
-          <div className="mt-12 pt-8 border-t border-cocoa/10 flex flex-wrap justify-center gap-6 sm:gap-12 text-xs md:text-sm font-semibold text-cocoa/75">
-            <span className="flex items-center gap-2">✓ UAE MOCCAE Certified</span>
-            <span className="flex items-center gap-2">✓ Microchipped & Vaccinated</span>
-            <span className="flex items-center gap-2">✓ Downtown Dubai Showroom</span>
-            <span className="flex items-center gap-2">✓ 1-Year Health Guarantee</span>
-          </div>
-
-          {/* Quick Lineup Showcase */}
-          <div className="mt-14 max-w-5xl mx-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {puppiesData.slice(0, 4).map((pup, idx) => (
-                <div key={pup.id} className="group relative">
-                  <Link to={`/puppies/${pup.slug}`} className="block rounded-3xl overflow-hidden aspect-[4/5] bg-honey/30 shadow-md border-2 border-cocoa/15 group-hover:scale-105 transition-all duration-300">
-                    <img src={pup.image} alt={pup.name} className="size-full object-cover" />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-cocoa/90 to-transparent p-3 text-milk text-left">
-                      <span className="font-plush font-bold text-base block">{pup.name}</span>
-                      <span className="text-[11px] text-honey block">{pup.breed}</span>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
+
+        {/* Arched Puppy Windows Stage with Cartoon Teddy and Quilted Scalloped Fence */}
+        <HeroStage />
       </section>
 
       {/* 2. MEET THE PUPS (DOOR ROOMS) */}

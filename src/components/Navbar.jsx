@@ -37,21 +37,21 @@ export default function Navbar() {
 
       <header
         id="site-header"
-        data-scrolled={scrolled}
+        data-scrolled="true"
         data-hidden="false"
-        data-home={isHome}
-        className="tp-header fixed inset-x-0 top-0 z-50 transition-all duration-300"
+        data-home="false"
+        className="tp-header fixed inset-x-0 top-0 z-50 bg-[#fffdf8] transition-all duration-300 shadow-[0_2px_10px_rgba(42,23,14,0.03)]"
       >
         <div className="tp-header__bar gutter">
-          <Link to="/" className="tp-header__brand" aria-label="TeddyPups U.A.E. — home">
-            <img
-              alt="TeddyPups Logo"
-              width="56"
-              height="56"
-              className="tp-header__logo"
-              src={siteConfig.logo}
-            />
-            <span className="font-plush tp-header__name">{siteConfig.brandName}</span>
+          <Link to="/" className="tp-header__brand flex items-center gap-3" aria-label="TeddyPups U.A.E. — home">
+            <div className="size-11 rounded-full overflow-hidden border-2 border-amber-600/40 p-0.5 bg-honey/30 shrink-0">
+              <img
+                alt="TeddyPups Logo"
+                className="size-full object-cover"
+                src={siteConfig.logo}
+              />
+            </div>
+            <span className="font-plush tp-header__name text-2xl font-bold text-cocoa">{siteConfig.brandName}</span>
           </Link>
 
           <nav aria-label="Main" className="tp-header__nav">
@@ -63,10 +63,12 @@ export default function Navbar() {
                     <Link
                       to={link.path}
                       data-active={isActive}
-                      className="tp-nav-link"
+                      className="tp-nav-link flex flex-col items-center justify-center font-medium text-[0.95rem] hover:text-toffee-deep transition-colors"
                     >
                       <span>{link.title}</span>
-                      <PawIcon className="tp-nav-link__paw" />
+                      {isActive && (
+                        <PawIcon className="tp-nav-link__paw size-3.5 text-toffee-deep mt-0.5" />
+                      )}
                     </Link>
                   </li>
                 );
@@ -74,12 +76,12 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          <div className="tp-header__end">
+          <div className="tp-header__end flex items-center gap-3">
             <a
               href={siteConfig.getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-whatsapp tp-header__wa"
+              className="px-5 py-2 rounded-full font-semibold text-sm text-white bg-[#1b5e20] hover:bg-[#14532d] shadow-sm transition-all hover:scale-105 inline-block"
             >
               WhatsApp us
             </a>
@@ -97,16 +99,27 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Scalloped hem decoration */}
-        <svg aria-hidden="true" className="tp-header__hem" width="100%" height="14" preserveAspectRatio="none">
-          <defs>
-            <pattern id="tp-hem" width="44" height="14" patternUnits="userSpaceOnUse">
-              <path d="M0 0H44V2A22 11 0 0 1 0 2Z" className="tp-header__hem-fill" />
-              <path d="M0 2A22 11 0 0 0 44 2" className="tp-header__hem-line" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="14" fill="url(#tp-hem)" />
-        </svg>
+        {/* Continuous Scrolling Scalloped Hem Border */}
+        <div className="absolute top-full left-0 w-full h-[14px] pointer-events-none overflow-hidden drop-shadow-[0_2px_3px_rgba(42,23,14,0.06)]">
+          <svg aria-hidden="true" className="w-full h-[14px] block" width="100%" height="14" preserveAspectRatio="none">
+            <defs>
+              <pattern id="tp-hem-scroll" width="44" height="14" patternUnits="userSpaceOnUse">
+                {/* Continuous infinite horizontal scrolling animation */}
+                <animateTransform
+                  attributeName="patternTransform"
+                  type="translate"
+                  from="0,0"
+                  to="-44,0"
+                  dur="2.5s"
+                  repeatCount="indefinite"
+                />
+                <path d="M0 0H44V2A22 11 0 0 1 0 2Z" fill="#fffdf8" />
+                <path d="M0 2A22 11 0 0 0 44 2" fill="none" stroke="#2a170e" strokeWidth="1.8" opacity="0.35" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="14" fill="url(#tp-hem-scroll)" />
+          </svg>
+        </div>
       </header>
 
       {/* Mobile Drawer Menu Dialog */}
