@@ -17,6 +17,8 @@ export default function TeddyMascot({
 }) {
   const containerRef = useRef(null);
   const bubbleRef = useRef(null);
+  const targetGazeRef = useRef({ x: 0, y: 0 });
+  const currentGazeRef = useRef({ x: 0, y: 0 });
 
   // Animation states
   const [currentPose, setCurrentPose] = useState(pose);
@@ -62,8 +64,8 @@ export default function TeddyMascot({
 
     const loop = (now) => {
       const elapsed = (now - startTime) / 1000;
-      const wagSpeed = isPetting ? 14 : currentPose === 'walk' ? 9 : 4;
-      const wagAmplitude = isPetting ? 24 : 14;
+      const wagSpeed = isPetting ? 14 : currentPose === 'walk' ? 9 : currentPose === 'snug' ? 3 : 4;
+      const wagAmplitude = isPetting ? 24 : currentPose === 'snug' ? 8 : 14;
       
       const baseTail = currentPose === 'sit' ? 34 : currentPose === 'walk' ? -6 : -20;
       setTailAngle(baseTail + Math.sin(elapsed * wagSpeed) * wagAmplitude);
@@ -72,6 +74,14 @@ export default function TeddyMascot({
         setWalkPhase(elapsed * 7.5);
       }
 
+      // Smooth lerp eye gaze tracking
+      currentGazeRef.current.x += (targetGazeRef.current.x - currentGazeRef.current.x) * 0.16;
+      currentGazeRef.current.y += (targetGazeRef.current.y - currentGazeRef.current.y) * 0.16;
+      setGaze({
+        x: Math.round(currentGazeRef.current.x * 1000) / 1000,
+        y: Math.round(currentGazeRef.current.y * 1000) / 1000
+      });
+
       animId = requestAnimationFrame(loop);
     };
 
@@ -79,24 +89,36 @@ export default function TeddyMascot({
     return () => cancelAnimationFrame(animId);
   }, [currentPose, isPetting]);
 
-  // Eye tracking: gently look towards mouse
+  // Eye tracking: accurately track cursor direction relative to puppy's eyes
   useEffect(() => {
     const handlePointerMove = (e) => {
       if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const dx = (e.clientX - centerX) / (window.innerWidth / 2);
-      const dy = (e.clientY - centerY) / (window.innerHeight / 2);
-      setGaze({
-        x: Math.max(-1, Math.min(1, dx)),
-        y: Math.max(-1, Math.min(1, dy))
-      });
+      const svg = containerRef.current.querySelector('svg');
+      if (!svg) return;
+      const rect = svg.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      // Eye center coordinates in SVG viewBox (300 x 240)
+      const eyeXInView = facing === 'left' ? 88 : 212;
+      const eyeScreenX = rect.left + (eyeXInView / 300) * rect.width;
+      const eyeScreenY = rect.top + (98 / 240) * rect.height;
+
+      const dx = e.clientX - eyeScreenX;
+      const dy = e.clientY - eyeScreenY;
+      const dist = Math.hypot(dx, dy) || 1;
+      // Reach factor smoothly ramps up to 1.0 within 140px distance
+      const reach = Math.min(1, dist / 140);
+      const facingSign = facing === 'left' ? -1 : 1;
+
+      targetGazeRef.current = {
+        x: (dx / dist) * reach * facingSign,
+        y: (dy / dist) * reach
+      };
     };
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', handlePointerMove);
-  }, []);
+  }, [facing]);
 
   // Speech bubble helper
   const say = (text, duration = 1800) => {
@@ -107,10 +129,18 @@ export default function TeddyMascot({
     }, duration);
   };
 
+  const isPeek = currentPose === 'peek';
+  const isSit = currentPose === 'sit';
+  const isHop = currentPose === 'hop';
+  const isWalk = currentPose === 'walk';
+  const isSnug = currentPose === 'snug';
+
   const handlePointerEnter = () => {
     if (!interactive) return;
     setIsPetting(true);
-    const phrases = ['peekaboo!', 'woof! 🐾', 'hi friend!', 'every puppy is family!'];
+    const phrases = isSnug
+      ? ['snug as a bug! 🐾', 'warm & cozy! ✨', 'woof! 💕', 'home, at last! 🐶']
+      : ['peekaboo!', 'woof! 🐾', 'hi friend!', 'every puppy is family!'];
     const phrase = phrases[Math.floor(Math.random() * phrases.length)];
     say(phrase);
     if (onPet) onPet();
@@ -123,7 +153,10 @@ export default function TeddyMascot({
 
   const handleClick = () => {
     if (!interactive) return;
-    say('peekaboo! ✨', 2000);
+    const phrases = isSnug
+      ? ['snug as a bug! 🐾', 'warm & cozy! ✨', 'home, at last! 🐶', 'sweet dreams! 🌙']
+      : ['peekaboo! ✨', 'woof! 🐾', 'every puppy is family!'];
+    say(phrases[Math.floor(Math.random() * phrases.length)], 2000);
   };
 
   // Walk cycle leg rotation calculations
@@ -132,16 +165,12 @@ export default function TeddyMascot({
   const legAngle2 = currentPose === 'walk' ? Math.sin(walkPhase + Math.PI) * p : 0;
   const bodyBob = currentPose === 'walk' ? Math.abs(Math.sin(walkPhase)) * 4 : 0;
 
-  const isPeek = currentPose === 'peek';
-  const isSit = currentPose === 'sit';
-  const isHop = currentPose === 'hop';
-  const isWalk = currentPose === 'walk';
-
   // Body and head transform calculations based on pose
   let bodyY = isSit ? -2 : isHop ? -10 : bodyBob;
   let bodyRot = isSit ? -24 : isHop ? -9 : 0;
-  let headY = isPeek ? 4 : isSit ? -6 : isHop ? -6 : (isWalk ? Math.sin(walkPhase) * 2 : 0);
+  let headY = isPeek ? 4 : isSnug ? 9 : isSit ? -6 : isHop ? -6 : (isWalk ? Math.sin(walkPhase) * 2 : 0);
   let headX = isSit ? -10 : 0;
+  let headRot = (isSnug ? 4 : 0) + gaze.x * 3.5;
 
   return (
     <div
@@ -167,10 +196,10 @@ export default function TeddyMascot({
             data-p="shadow"
             cx="150"
             cy="230"
-            rx={isPeek ? "0" : "92"}
+            rx={isPeek || isSnug ? "0" : "92"}
             ry="7"
             fill="#2a170e"
-            opacity={isPeek ? 0 : 0.12}
+            opacity={isPeek || isSnug ? 0 : 0.12}
             transform={`translate(${isWalk ? Math.sin(walkPhase) * 2 : 0} 0)`}
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
@@ -179,7 +208,7 @@ export default function TeddyMascot({
           <g
             data-p="body"
             transform={`translate(0 ${bodyY}) rotate(${bodyRot} 196 206)`}
-            opacity={isPeek ? 0 : 1}
+            opacity={isPeek || isSnug ? 0 : 1}
             style={{ transition: 'opacity 0.3s ease, transform 0.35s ease' }}
           >
             {/* Back far foot */}
@@ -230,7 +259,7 @@ export default function TeddyMascot({
           </g>
 
           {/* Head & Face */}
-          <g data-p="head" transform={`translate(${headX} ${headY}) rotate(0 212 100)`}>
+          <g data-p="head" transform={`translate(${headX} ${headY}) rotate(${headRot} 212 100)`}>
             {/* Red Collar & Gold Tag */}
             <path d="M178 146 Q212 162 246 146 L246 154 Q212 170 178 154 Z" fill="#a24a1a" stroke="#2a170e" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             <path d="M212 160 C212 156 206 155 206 159.4 C206 163 212 166.6 212 168.4 C212 166.6 218 163 218 159.4 C218 155 212 156 212 160 Z" fill="#fbe3b4" stroke="#2a170e" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" />
@@ -244,7 +273,7 @@ export default function TeddyMascot({
               strokeWidth="3.4"
               strokeLinejoin="round"
               strokeLinecap="round"
-              transform={`rotate(${-6 + earTwitch} 174 82)`}
+              transform={`rotate(${isSnug ? (3 + earTwitch) : (-6 + earTwitch)} 174 82)`}
               style={{ transition: 'transform 0.15s ease' }}
             />
 
@@ -257,7 +286,7 @@ export default function TeddyMascot({
               strokeWidth="3.4"
               strokeLinejoin="round"
               strokeLinecap="round"
-              transform={`rotate(${6 - earTwitch} 250 82)`}
+              transform={`rotate(${isSnug ? (-3 - earTwitch) : (6 - earTwitch)} 250 82)`}
               style={{ transition: 'transform 0.15s ease' }}
             />
 
@@ -275,7 +304,7 @@ export default function TeddyMascot({
             <circle cx="243" cy="116" r="7" fill="#f9b9a6" opacity="0.85" />
 
             {/* Eyes (Tracking gaze + Blinking) */}
-            <g data-p="eyes" transform={`translate(${gaze.x * 3.4} ${gaze.y * 2.6})`}>
+            <g data-p="eyes" transform={`translate(${gaze.x * 3.6} ${gaze.y * 2.8})`}>
               <g data-p="open" opacity={1}>
                 <g data-p="blink" transform={`translate(0 ${98 * blink * 0.92}) scale(1 ${1 - 0.92 * blink})`}>
                   <ellipse cx="194" cy="98" rx="7.4" ry="8.6" fill="#2a170e" />
@@ -294,12 +323,12 @@ export default function TeddyMascot({
             {/* Cute Smile / Mouth */}
             <path d="M212 120 V124.5 M212 124.5 Q207.2 129.6 202.8 125.2 M212 124.5 Q216.8 129.6 221.2 125.2" stroke="#2a170e" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" fill="none" />
 
-            {/* Pink Tongue (visible when panting / happy) */}
-            <path data-p="tongue" d="M207.6 127.4 Q212 136.6 216.4 127.4 Z" fill="#e98c8c" stroke="#2a170e" strokeWidth="2.2" strokeLinejoin="round" opacity="1" />
+            {/* Pink Tongue (hidden in snug pose) */}
+            <path data-p="tongue" d="M207.6 127.4 Q212 136.6 216.4 127.4 Z" fill="#e98c8c" stroke="#2a170e" strokeWidth="2.2" strokeLinejoin="round" opacity={isSnug ? 0 : 1} />
           </g>
 
-          {/* Front Paws on Ledge (Visible in Peek Pose) */}
-          <g data-p="ledge" opacity={isPeek ? 1 : 0} style={{ transition: 'opacity 0.2s ease' }}>
+          {/* Front Paws on Ledge (Visible in Peek & Snug Poses) */}
+          <g data-p="ledge" opacity={isPeek || isSnug ? 1 : 0} style={{ transition: 'opacity 0.2s ease' }}>
             <path d="M175 159 C175 148 181 142 190 142 C199 142 205 148 205 159 Z M219 159 C219 148 225 142 234 142 C243 142 249 148 249 159 Z" fill="#f2be6b" stroke="#2a170e" strokeWidth="3.4" strokeLinejoin="round" strokeLinecap="round" />
             <path d="M186 153 v-4.5 M194 153 v-4.5 M230 153 v-4.5 M238 153 v-4.5" stroke="#2a170e" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" fill="none" />
           </g>

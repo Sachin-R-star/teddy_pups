@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../data/siteConfig';
+import TeddyMascot from './TeddyMascot';
 
 export default function Footer() {
   return (
@@ -55,14 +56,13 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Sleeping Teddy in Wicker Basket */}
+        {/* Teddy in Wicker Basket */}
         <div className="order-last md:order-none md:col-span-5 md:col-start-1 md:row-start-2">
           <div className="tp-basket">
             <svg aria-hidden="true" viewBox="0 0 300 240" className="tp-basket__back">
-              <path
-                d="M116 145 C118 100 126 80 138 65 L286 65 C298 80 306 100 308 145 Z"
-                className="tp-basket__back-fill"
-              />
+              <ellipse cx="212" cy="145" rx="96" ry="12" className="tp-basket__hollow" />
+              <path d="M116 145 A96 12 0 0 1 308 145" className="tp-basket__rim-line" />
+              <path d="M116 145 A96 12 0 0 1 308 145" className="tp-basket__rim" />
             </svg>
             <div
               data-pup-stop="true"
@@ -73,24 +73,7 @@ export default function Footer() {
               data-lane="true"
               className="pup-stop tp-basket__pup"
             >
-              <div className="pup-buddy" data-facing="right">
-                <svg viewBox="0 0 424 240" className="tp-buddy-svg w-36 h-auto">
-                  <ellipse cx="212" cy="140" rx="42" ry="28" fill="#f2be6b" stroke="#2a170e" strokeWidth="3" />
-                  <circle cx="212" cy="100" r="32" fill="#f2be6b" stroke="#2a170e" strokeWidth="3" />
-                  {/* Fluffy ears */}
-                  <ellipse cx="178" cy="105" rx="14" ry="20" fill="#e4a352" stroke="#2a170e" strokeWidth="2.5" />
-                  <ellipse cx="246" cy="105" rx="14" ry="20" fill="#e4a352" stroke="#2a170e" strokeWidth="2.5" />
-                  {/* Sleeping eyes curved */}
-                  <path d="M198 98 Q204 104 210 98" stroke="#2a170e" strokeWidth="3" strokeLinecap="round" fill="none" />
-                  <path d="M214 98 Q220 104 226 98" stroke="#2a170e" strokeWidth="3" strokeLinecap="round" fill="none" />
-                  {/* Cute snout & nose */}
-                  <ellipse cx="212" cy="108" rx="5" ry="3.5" fill="#2a170e" />
-                  <path d="M212 111.5 v 4" stroke="#2a170e" strokeWidth="2" strokeLinecap="round" />
-                  {/* Little blush cheeks */}
-                  <circle cx="192" cy="104" r="5" fill="#f9b9a6" opacity="0.8" />
-                  <circle cx="232" cy="104" r="5" fill="#f9b9a6" opacity="0.8" />
-                </svg>
-              </div>
+              <TeddyMascot pose="snug" facing="right" interactive={true} />
             </div>
             <svg aria-hidden="true" viewBox="0 0 300 240" className="tp-basket__front">
               <path
