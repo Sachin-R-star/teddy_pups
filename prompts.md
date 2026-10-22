@@ -78,7 +78,7 @@
 **Prompt:**
 > "// Mouse position track karke ek custom div move karwao
 > window.addEventListener('mousemove', (e) => {
->   cursor.style.transform = \`translate3d(\${e.clientX}px, \${e.clientY}px, 0)\`;
+>   cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
 >   // Throttled function se paw-print clone create karke fadeout karo
 > }); paw cursor implement kar isme and local link de jisse ki check kar sakoon"
 
@@ -88,6 +88,24 @@
   - Alternating left/right trailing paw footprints (`sideTilt: ±14deg`) that spawn on mouse movement and fade out smoothly over 950ms.
   - Scale & tilt animations on click / mousedown and hover over interactive elements (`a`, `button`, `input`).
   - Native cursor auto-hidden via `@media (pointer: fine)` to ensure desktop immersion while preserving native touch gestures on mobile devices.
+
+### Stage 7: Continuous Hem Animation, Logo Constraints & Full Reference Alignment
+**Prompts:**
+> "check kar aisa dikhe website opening mein abhi galat dikh rha hai means kuch cheezein missing hai like headermein scrolling continus border jo jo missing hai sab add kar"
+> "abe ye image kitni badi kardi hai bhai"
+> "footer and header and main section and ye sab abhi bhi sahi nhi hai in sab koshi kar https://puppy.instabizweb.com/ is website pe jaise diya hai waise hi banana hai"
+
+**Execution & Refinements:**
+1. **Continuous Scalloped Border (`<animateTransform>`)**:
+   - Added an SVG pattern transform translation `from="0,0" to="-44,0" dur="2.5s" repeatCount="indefinite"` inside `<pattern id="tp-hem">` in `Navbar.jsx`, producing an infinitely looping scalloped hem animation.
+2. **Constrained Header Logo (`48px` / `3rem`)**:
+   - Locked `.tp-header__logo` dimensions with `width: 3rem !important; height: 3rem !important; border-radius: 9999px; object-fit: cover;`, preventing natural 512x512px image blowup on production preview.
+3. **Full 8-Scene Sky Story & Footer Architecture**:
+   - Directly analyzed reference stylesheets (`ref_style_2.css`) and DOM scenes:
+     - Hero (`tp-hero`), Meet the Pups (`tp-meet`), Two Ways (`tp-paths`), WhatsApp Concierge (`tp-chat`), Passport Trust (`tp-passport`), Sunset Dusk Polaroids (`tp-dusk`), Starry Night FAQs (`tp-night`), and Ready Home CTA (`tp-home`).
+   - Rebuilt `Footer.jsx` with curved night hill SVG, glowing crescent moon (`tp-moon`), twinkling stars (`tp-twinkle`), sleeping puppy in wicker basket (`tp-basket`), and social pill badges.
+   - Synchronized all 6 subpages (`Puppies.jsx`, `GoneHome.jsx`, `HappyFamilies.jsx`, `HowItWorks.jsx`, `Faq.jsx`, `Contact.jsx`) to mirror the reference structure with 100% fidelity.
+
 
 ---
 
