@@ -4,6 +4,7 @@ import { getPuppyBySlug, getRelatedPuppies } from '../data/puppies';
 import { siteConfig } from '../data/siteConfig';
 import PuppyCard from '../components/PuppyCard';
 import { PawIcon } from '../components/Navbar';
+import TeddyMascot from '../components/TeddyMascot';
 
 export default function PuppyDetail() {
   const { slug } = useParams();
@@ -113,7 +114,10 @@ export default function PuppyDetail() {
             </div>
 
             {/* Quick Summary Card */}
-            <div className="p-6 rounded-3xl bg-[#fdfaf3] border-2 border-cocoa/15 shadow-sm space-y-4">
+            <div className="relative p-6 rounded-3xl bg-[#fdfaf3] border-2 border-cocoa/15 shadow-sm space-y-4">
+              <div className="absolute -top-20 right-2 w-24 pointer-events-auto z-20">
+                <TeddyMascot pose="sit" facing="left" interactive={true} />
+              </div>
               <h2 className="font-plush text-lg font-bold text-cocoa flex items-center gap-2">
                 <span>📋</span> Puppy Specifications & Pedigree
               </h2>

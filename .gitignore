@@ -25,5 +25,8 @@ dist-ssr
 
 # Raw scraped artifacts
 scraped/
+scripts/*.mp4
+scripts/*.html
+scripts/*.json
 10jf32vdx50lp.css
 2gh-2btcjgkih.css
