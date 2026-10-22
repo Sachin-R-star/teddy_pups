@@ -8,31 +8,30 @@ export default function PawCursor() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Only enable on devices with a mouse/pointer
+    // Only enable on devices with a mouse/pointer (not touch-only phones)
     if (window.matchMedia('(pointer: coarse)').matches) {
       return;
     }
 
-    let lastX = 0;
-    let lastY = 0;
+    let lastX = -100;
+    let lastY = -100;
     let stepCount = 0;
-    let isMoving = false;
 
-    // Apply cursor: none to document when active
+    // Apply custom-cursor-active class to document
     document.documentElement.classList.add('custom-cursor-active');
 
     const handleMouseMove = (e) => {
       const { clientX: x, clientY: y } = e;
       setIsVisible(true);
 
-      // Smooth hardware-accelerated transform
+      // Smooth position update
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
       }
 
-      // Check distance moved to spawn paw prints trail
+      // Check distance moved to spawn trailing paw prints
       const dist = Math.hypot(x - lastX, y - lastY);
-      if (dist > 38 && trailsContainerRef.current) {
+      if (dist > 36 && trailsContainerRef.current) {
         lastX = x;
         lastY = y;
         stepCount++;
@@ -42,23 +41,30 @@ export default function PawCursor() {
         // Alternate slight tilt between left and right paws
         const sideTilt = stepCount % 2 === 0 ? 14 : -14;
 
-        // Create trailing paw print clone
+        // Create trailing paw print
         const pawPrint = document.createElement('div');
         pawPrint.className = 'tp-paw-trail-item';
-        pawPrint.style.left = `${x}px`;
-        pawPrint.style.top = `${y}px`;
-        pawPrint.style.transform = `translate(-50%, -50%) rotate(${angle + sideTilt}deg) scale(0.85)`;
+        pawPrint.style.cssText = `
+          position: fixed;
+          left: ${x}px;
+          top: ${y}px;
+          width: 20px;
+          height: 20px;
+          pointer-events: none;
+          z-index: 2147483646;
+          transform: translate(-50%, -50%) rotate(${angle + sideTilt}deg) scale(0.85);
+        `;
 
-        // SVG paw print inner
+        // SVG paw print
         pawPrint.innerHTML = `
-          <svg viewBox="0 0 64 64" width="22" height="22" fill="#c2622b">
-            <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z"/>
+          <svg viewBox="0 0 64 64" width="20" height="20" fill="#c2622b" style="display:block;">
+            <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
           </svg>
         `;
 
         trailsContainerRef.current.appendChild(pawPrint);
 
-        // Remove from DOM after fadeout animation completes
+        // Remove from DOM after fadeout animation
         setTimeout(() => {
           if (pawPrint && pawPrint.parentNode) {
             pawPrint.parentNode.removeChild(pawPrint);
@@ -76,13 +82,14 @@ export default function PawCursor() {
     const handleMouseOver = (e) => {
       const target = e.target;
       if (
-        target.closest('a') ||
-        target.closest('button') ||
-        target.closest('input') ||
-        target.closest('select') ||
-        target.closest('textarea') ||
-        target.closest('[role="button"]') ||
-        target.closest('.cursor-pointer')
+        target &&
+        (target.closest('a') ||
+          target.closest('button') ||
+          target.closest('input') ||
+          target.closest('select') ||
+          target.closest('textarea') ||
+          target.closest('[role="button"]') ||
+          target.closest('.cursor-pointer'))
       ) {
         setIsHovered(true);
       } else {
@@ -113,37 +120,78 @@ export default function PawCursor() {
       {/* Container for trailing paw prints */}
       <div
         ref={trailsContainerRef}
-        className="tp-paw-trails-container fixed inset-0 pointer-events-none z-[99998] overflow-hidden"
+        className="tp-paw-trails-container"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          pointerEvents: 'none',
+          zIndex: 2147483646,
+          overflow: 'hidden'
+        }}
         aria-hidden="true"
       />
 
-      {/* Main Cursor Element */}
+      {/* Main Paw Cursor Element */}
       <div
         ref={cursorRef}
-        className={`tp-custom-paw-cursor fixed top-0 left-0 pointer-events-none z-[99999] transition-opacity duration-200 ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="tp-custom-paw-cursor"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '36px',
+          height: '36px',
+          pointerEvents: 'none',
+          zIndex: 2147483647,
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.2s ease, transform 0.05s linear',
+          transform: 'translate3d(-9999px, -9999px, 0)'
+        }}
         aria-hidden="true"
       >
         <div
-          className={`relative transition-all duration-150 ${
-            isPressed
-              ? 'scale-75 rotate-[-8deg]'
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            transform: isPressed
+              ? 'scale(0.75) rotate(-8deg)'
               : isHovered
-              ? 'scale-125 rotate-[6deg]'
-              : 'scale-100'
-          }`}
+              ? 'scale(1.25) rotate(6deg)'
+              : 'scale(1)',
+            transition: 'transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          }}
         >
-          {/* Main Paw Icon */}
-          <div className="size-8 drop-shadow-[0_2px_4px_rgba(42,23,14,0.3)]">
-            <svg viewBox="0 0 64 64" className="size-full" fill={isHovered ? '#c2622b' : '#2a170e'}>
-              <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
-            </svg>
-          </div>
+          {/* Main Paw SVG */}
+          <svg
+            viewBox="0 0 64 64"
+            width="36"
+            height="36"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              fill: isHovered ? '#c2622b' : '#2a170e',
+              filter: 'drop-shadow(0 2px 5px rgba(42,23,14,0.4))',
+              transition: 'fill 0.2s ease'
+            }}
+          >
+            <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
+          </svg>
 
-          {/* Hover halo ring */}
+          {/* Golden halo ring on hover */}
           {isHovered && (
-            <div className="absolute inset-0 -m-1 rounded-full border-2 border-dashed border-toffee animate-spin-slow opacity-60" />
+            <div
+              style={{
+                position: 'absolute',
+                inset: '-4px',
+                borderRadius: '9999px',
+                border: '2px dashed #f2be6b',
+                pointerEvents: 'none',
+                opacity: 0.75,
+                animation: 'tp-halo-spin 3s linear infinite'
+              }}
+            />
           )}
         </div>
       </div>
