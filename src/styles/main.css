@@ -276,6 +276,310 @@
   transform: translateY(0) scale(1) !important;
 }
 
+/* =========================================================================
+   2. MEET THE PUPS (HALLWAY / DOORS TRACK & PERFECT BASELINE ALIGNMENT)
+   ========================================================================= */
+.tp-meet {
+  position: relative !important;
+  background: linear-gradient(to bottom, var(--sky-top, #fff1d8), var(--sky-bottom, #fbe3b4)) !important;
+}
+
+.tp-meet__stage {
+  padding-top: clamp(5.5rem, 11vh, 8rem) !important;
+  padding-bottom: clamp(3.5rem, 7vh, 5.5rem) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.tp-meet__head {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+  gap: 1.5rem 2rem !important;
+  width: 100% !important;
+  max-width: 110rem !important;
+  margin-inline: auto !important;
+  margin-bottom: clamp(1.5rem, 3vh, 2.5rem) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.tp-meet__hall {
+  --floor-h: clamp(5rem, 13vh, 8rem);
+  margin-top: clamp(2rem, 5vh, 3.5rem) !important;
+  position: relative !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(42, 23, 14, 0.25) transparent !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.tp-meet__hall::-webkit-scrollbar {
+  height: 8px;
+}
+.tp-meet__hall::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tp-meet__hall::-webkit-scrollbar-thumb {
+  background: rgba(42, 23, 14, 0.22);
+  border-radius: 999px;
+}
+
+.tp-meet__track {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-end !important;
+  gap: clamp(2.2rem, 3.8vw, 4.2rem) !important;
+  width: max-content !important;
+  max-width: none !important;
+  padding-inline: var(--gutter, 2rem) calc(var(--gutter, 2rem) + 4rem) !important;
+  margin: 0 !important;
+  padding-bottom: clamp(1.2rem, 2.5vh, 2.2rem) !important;
+  position: relative !important;
+  z-index: 2 !important;
+  list-style: none !important;
+}
+
+/* Door Item Structure & Unified Baseline Alignment */
+.tp-door {
+  width: clamp(12.5rem, 15vw, 16rem) !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  list-style: none !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.tp-door__link {
+  border-radius: 1rem !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+  color: inherit !important;
+}
+
+/* Text Plate Above Door - Standardized Height to Keep Frames Flush */
+.tp-door__plate {
+  text-align: center !important;
+  margin-bottom: 0.85rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  min-height: 5.5rem !important;
+  padding-inline: 0.4rem !important;
+}
+
+.tp-door__name {
+  font-family: var(--font-display, 'Fraunces', serif) !important;
+  font-size: clamp(1.35rem, 1.8vw, 1.85rem) !important;
+  line-height: 1.05 !important;
+  font-weight: 800 !important;
+  color: var(--color-cocoa, #2a170e) !important;
+  text-wrap: balance !important;
+  display: block !important;
+  transition: color 0.2s ease !important;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72 !important;
+}
+
+.tp-door__meta {
+  color: var(--color-cocoa-soft, #5a3a28) !important;
+  margin-top: 0.35rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  display: block !important;
+  line-height: 1.3 !important;
+}
+
+/* Arched Door Frame - Strict Aspect Ratio and Uniform Bottom Alignment */
+.tp-door__frame {
+  aspect-ratio: 4 / 5.2 !important;
+  border: 3px solid var(--color-cocoa, #2a170e) !important;
+  background: #3b2215 !important;
+  border-bottom: 0 !important;
+  border-radius: 999px 999px 0 0 !important;
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Door Wooden Threshold Base */
+.tp-door__frame:after {
+  content: "" !important;
+  border: 3px solid var(--color-cocoa, #2a170e) !important;
+  background: #dc9a52 !important;
+  border-radius: 0.35rem !important;
+  height: 0.65rem !important;
+  position: absolute !important;
+  bottom: -0.65rem !important;
+  left: -0.55rem !important;
+  right: -0.55rem !important;
+  z-index: 5 !important;
+}
+
+.tp-door__way {
+  --door-open: 78deg;
+  perspective: 700px !important;
+  perspective-origin: 0 !important;
+  border-radius: 999px 999px 0 0 !important;
+  position: absolute !important;
+  inset: -3px -3px 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.tp-door__room {
+  border-radius: inherit !important;
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  background: #3b2215 !important;
+}
+
+.tp-door__room img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  display: block !important;
+}
+
+/* The Swinging Door Leaf */
+.tp-door__leaf {
+  border: 3px solid var(--color-cocoa, #2a170e) !important;
+  background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1.5px), rgba(42, 23, 14, 0.18) calc(25% - 1.5px) 25%),
+              var(--door, #a24a1a) !important;
+  transform-origin: 0 !important;
+  border-bottom: 0 !important;
+  border-radius: 999px 999px 0 0 !important;
+  transition: transform 0.9s cubic-bezier(0.3, 1.32, 0.48, 1) !important;
+  position: absolute !important;
+  inset: 0 !important;
+  transform: rotateY(78deg) !important;
+}
+
+.tp-door__leaf:before {
+  content: "" !important;
+  border: 2.5px solid rgba(255, 253, 248, 0.28) !important;
+  border-radius: 999px 999px 0.5rem 0.5rem !important;
+  position: absolute !important;
+  inset: 12% 14% 9% !important;
+}
+
+.tp-door__peephole {
+  color: rgba(255, 253, 248, 0.45) !important;
+  width: 22% !important;
+  position: absolute !important;
+  top: 19% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.tp-door__knob {
+  aspect-ratio: 1 !important;
+  border: 2.5px solid var(--color-cocoa, #2a170e) !important;
+  background: var(--color-honey, #f2be6b) !important;
+  border-radius: 50% !important;
+  width: 0.85rem !important;
+  position: absolute !important;
+  top: 56% !important;
+  right: 11% !important;
+}
+
+/* "Available" Pill Tag on Door */
+.tp-door__tag {
+  z-index: 6 !important;
+  border: 2px solid var(--color-cocoa, #2a170e) !important;
+  background: var(--color-milk, #fffdf8) !important;
+  color: var(--color-cocoa, #2a170e) !important;
+  border-radius: 999px !important;
+  padding: 0.1rem 0.75rem !important;
+  font-size: 0.92rem !important;
+  position: absolute !important;
+  top: 16% !important;
+  right: -0.7rem !important;
+  transform: rotate(7deg) !important;
+  box-shadow: 2px 3px rgba(42, 23, 14, 0.2) !important;
+  white-space: nowrap !important;
+}
+
+/* Hover effects */
+.tp-door__link:hover .tp-door__name {
+  color: var(--color-toffee-deep, #a24a1a) !important;
+}
+.tp-door__link:hover .tp-door__room img {
+  transform: scale(1.06) !important;
+}
+.tp-door__link:hover .tp-door__leaf {
+  transform: rotateY(86deg) !important;
+}
+
+/* "Meet them all" Door Card */
+.tp-door--all {
+  align-self: flex-end !important;
+}
+.tp-door__frame--all {
+  background: transparent !important;
+  border: 3px dashed var(--color-cocoa, #2a170e) !important;
+  border-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  aspect-ratio: 4 / 5.2 !important;
+  border-radius: 999px 999px 0 0 !important;
+  transition: background-color 0.2s ease, transform 0.25s ease !important;
+}
+.tp-door--all .tp-door__link:hover .tp-door__frame--all {
+  background: rgba(242, 190, 107, 0.2) !important;
+  transform: translateY(-4px) !important;
+}
+.tp-door__all {
+  text-align: center !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--color-toffee, #c2622b) !important;
+  text-underline-offset: 0.18em !important;
+  padding: 1rem !important;
+  font-size: clamp(1.4rem, 2vw, 2rem) !important;
+  line-height: 1.1 !important;
+  color: var(--color-cocoa, #2a170e) !important;
+  font-weight: 800 !important;
+}
+
+/* Wooden Hall Floor */
+.tp-meet__floor {
+  height: var(--floor-h, clamp(5rem, 13vh, 8rem)) !important;
+  border-top: 3px solid var(--color-cocoa, #2a170e) !important;
+  background: linear-gradient(to bottom, rgba(42, 23, 14, 0.14), transparent 22%),
+              repeating-linear-gradient(90deg, transparent 0 calc(11rem - 2px), rgba(42, 23, 14, 0.1) calc(11rem - 2px) 11rem),
+              linear-gradient(#e8b06a, #dc9a52) !important;
+  display: block !important;
+  position: absolute !important;
+  inset: auto 0 0 !important;
+  box-shadow: 0 -10px 0 -5px #f5d9a8 !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.tp-meet__teddy {
+  position: absolute !important;
+  bottom: calc(var(--floor-h, 6rem) * 0.42) !important;
+  right: var(--gutter, 2rem) !important;
+  width: clamp(9rem, 13vw, 13rem) !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+}
+
 
 /* Custom Paw Cursor & Trailing Prints */
 @media (pointer: fine) {
