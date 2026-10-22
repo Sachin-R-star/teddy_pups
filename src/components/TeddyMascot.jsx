@@ -30,6 +30,8 @@ export default function TeddyMascot({
   const [earTwitch, setEarTwitch] = useState(0);
   const [walkPhase, setWalkPhase] = useState(0);
   const [isPetting, setIsPetting] = useState(false);
+  const [isEyesClosed, setIsEyesClosed] = useState(false);
+  const isEyesClosedRef = useRef(false);
 
   // Sync prop changes
   useEffect(() => {
@@ -40,6 +42,10 @@ export default function TeddyMascot({
   useEffect(() => {
     let blinkTimeout;
     const triggerBlink = () => {
+      if (isEyesClosedRef.current) {
+        blinkTimeout = setTimeout(triggerBlink, 1500);
+        return;
+      }
       setBlink(1);
       setTimeout(() => setBlink(0), 160);
       blinkTimeout = setTimeout(triggerBlink, 2800 + Math.random() * 3000);
@@ -98,6 +104,25 @@ export default function TeddyMascot({
       const rect = svg.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
+      // In snug pose (wicker basket in footer):
+      // When cursor moves down below the top rim of the bucket, close eyes!
+      if (currentPose === 'snug') {
+        const rimScreenY = rect.top + (136 / 240) * rect.height;
+        if (e.clientY >= rimScreenY) {
+          if (!isEyesClosedRef.current) {
+            isEyesClosedRef.current = true;
+            setIsEyesClosed(true);
+          }
+          targetGazeRef.current = { x: 0, y: 0.1 };
+          return;
+        } else {
+          if (isEyesClosedRef.current) {
+            isEyesClosedRef.current = false;
+            setIsEyesClosed(false);
+          }
+        }
+      }
+
       // Eye center coordinates in SVG viewBox (300 x 240)
       const eyeXInView = facing === 'left' ? 88 : 212;
       const eyeScreenX = rect.left + (eyeXInView / 300) * rect.width;
@@ -118,7 +143,7 @@ export default function TeddyMascot({
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     return () => window.removeEventListener('pointermove', handlePointerMove);
-  }, [facing]);
+  }, [facing, currentPose]);
 
   // Speech bubble helper
   const say = (text, duration = 1800) => {
@@ -305,7 +330,7 @@ export default function TeddyMascot({
 
             {/* Eyes (Tracking gaze + Blinking) */}
             <g data-p="eyes" transform={`translate(${gaze.x * 3.6} ${gaze.y * 2.8})`}>
-              <g data-p="open" opacity={1}>
+              <g data-p="open" opacity={isEyesClosed ? 0 : 1} style={{ transition: 'opacity 0.18s ease' }}>
                 <g data-p="blink" transform={`translate(0 ${98 * blink * 0.92}) scale(1 ${1 - 0.92 * blink})`}>
                   <ellipse cx="194" cy="98" rx="7.4" ry="8.6" fill="#2a170e" />
                   <ellipse cx="230" cy="98" rx="7.4" ry="8.6" fill="#2a170e" />
@@ -316,6 +341,31 @@ export default function TeddyMascot({
                 </g>
               </g>
             </g>
+
+            {/* Happy eyes path */}
+            <path
+              data-p="happy"
+              d="M186.5 101 Q194 91.5 201.5 101 M222.5 101 Q230 91.5 237.5 101"
+              stroke="#2a170e"
+              strokeWidth="3.4"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0"
+            />
+
+            {/* Closed / Sleeping eyes when cursor moves below bucket top */}
+            <path
+              data-p="shut"
+              d="M186.5 97 Q194 103.5 201.5 97 M222.5 97 Q230 103.5 237.5 97"
+              stroke="#2a170e"
+              strokeWidth="3.4"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              fill="none"
+              opacity={isEyesClosed ? 1 : 0}
+              style={{ transition: 'opacity 0.18s ease' }}
+            />
 
             {/* Nose */}
             <path d="M204.5 111.5 Q212 107.2 219.5 111.5 Q218.2 118.4 212 120 Q205.8 118.4 204.5 111.5 Z" fill="#2a170e" />
