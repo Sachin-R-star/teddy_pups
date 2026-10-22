@@ -455,7 +455,7 @@
   display: block !important;
 }
 
-/* The Swinging Door Leaf */
+/* The Swinging Door Leaf - CLOSED by default */
 .tp-door__leaf {
   border: 3px solid var(--color-cocoa, #2a170e) !important;
   background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1.5px), rgba(42, 23, 14, 0.18) calc(25% - 1.5px) 25%),
@@ -463,10 +463,11 @@
   transform-origin: 0 !important;
   border-bottom: 0 !important;
   border-radius: 999px 999px 0 0 !important;
-  transition: transform 0.9s cubic-bezier(0.3, 1.32, 0.48, 1) !important;
+  transition: transform 0.85s cubic-bezier(0.3, 1.32, 0.48, 1) !important;
   position: absolute !important;
   inset: 0 !important;
-  transform: rotateY(78deg) !important;
+  transform: rotateY(0deg) !important;
+  z-index: 3 !important;
 }
 
 .tp-door__leaf:before {
@@ -495,6 +496,7 @@
   position: absolute !important;
   top: 56% !important;
   right: 11% !important;
+  box-shadow: 0 2px 4px rgba(42, 23, 14, 0.3) !important;
 }
 
 /* "Available" Pill Tag on Door */
@@ -514,15 +516,22 @@
   white-space: nowrap !important;
 }
 
-/* Hover effects */
-.tp-door__link:hover .tp-door__name {
-  color: var(--color-toffee-deep, #a24a1a) !important;
+/* Door Opens on Hover or when data-open="true" */
+.tp-door:is(:hover, :focus-within) .tp-door__leaf,
+.tp-door__link:is(:hover, :focus-visible) .tp-door__leaf,
+.tp-door[data-open="true"] .tp-door__leaf {
+  transform: rotateY(78deg) !important;
 }
-.tp-door__link:hover .tp-door__room img {
+
+.tp-door:is(:hover, :focus-within) .tp-door__room img,
+.tp-door__link:is(:hover, :focus-visible) .tp-door__room img,
+.tp-door[data-open="true"] .tp-door__room img {
   transform: scale(1.06) !important;
 }
-.tp-door__link:hover .tp-door__leaf {
-  transform: rotateY(86deg) !important;
+
+.tp-door:is(:hover, :focus-within) .tp-door__name,
+.tp-door__link:is(:hover, :focus-visible) .tp-door__name {
+  color: var(--color-toffee-deep, #a24a1a) !important;
 }
 
 /* "Meet them all" Door Card */
