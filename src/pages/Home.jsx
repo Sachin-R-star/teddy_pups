@@ -176,28 +176,28 @@ export default function Home() {
                 </span>
               </Link>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "35%", "--w": "9.2rem", "--peek": "0.7", "--tilt": "-2deg", "--i": "2" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "35%", "--w": "9.3rem", "--peek": "0.72", "--tilt": "-2.5deg", "--i": "2" }}>
               <Link className="tp-lineup__pup" data-pup-friend="true" aria-label="Meet Korean Teacup Poodle, Korean Teacup Poodle" to="/puppies/korean-teacup-poodle-female" onMouseEnter={() => setHoveredSeat(2)} onMouseLeave={() => setHoveredSeat(null)}>
                 <span className="tp-lineup__photo">
                   <img alt="Female Korean Teacup Poodle puppy" loading="eager" decoding="async" style={{ position: "absolute", height: "100%", width: "100%", left: 0, top: 0, objectFit: "cover", objectPosition: "54.5% 45.7%" }} src="https://puppy.instabizweb.com/media/xeMJCapr5vcU/e618c653b2/b942a5_14376a216177484dbbb27995d0f6aeb7-mv2.jpg" />
                 </span>
               </Link>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "65%", "--w": "9.4rem", "--peek": "0.74", "--tilt": "3deg", "--i": "3" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "65%", "--w": "9.3rem", "--peek": "0.72", "--tilt": "2.5deg", "--i": "3" }}>
               <Link className="tp-lineup__pup" data-pup-friend="true" aria-label="Meet Maltipoo &amp; Cavapoo, Maltipoo &amp; Cavapoo" to="/puppies/maltipoo-cavapoo-male" onMouseEnter={() => setHoveredSeat(3)} onMouseLeave={() => setHoveredSeat(null)}>
                 <span className="tp-lineup__photo">
                   <img alt="Male Maltipoo &amp; Cavapoo puppy" loading="eager" decoding="async" style={{ position: "absolute", height: "100%", width: "100%", left: 0, top: 0, objectFit: "cover", objectPosition: "44.7% 29.5%" }} src="https://puppy.instabizweb.com/media/YQhey4j7uWvZ/3ea10db6c1/b942a5_7ce7e7bd18424b6c8fb16dd30113ade2-mv2.jpg" />
                 </span>
               </Link>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "77.5%", "--w": "10.6rem", "--peek": "0.82", "--tilt": "-3deg", "--i": "4" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "77.5%", "--w": "10.4rem", "--peek": "0.8", "--tilt": "-3deg", "--i": "4" }}>
               <Link className="tp-lineup__pup" data-pup-friend="true" aria-label="Meet Toy Poodle, Toy Poodle" to="/puppies/toy-poodle-male-female" onMouseEnter={() => setHoveredSeat(4)} onMouseLeave={() => setHoveredSeat(null)}>
                 <span className="tp-lineup__photo">
                   <img alt="Toy Poodle puppy" loading="eager" decoding="async" style={{ position: "absolute", height: "100%", width: "100%", left: 0, top: 0, objectFit: "cover", objectPosition: "65.4% 44.7%" }} src="https://puppy.instabizweb.com/media/vMu0BPvkAZ-j/c65e53967d/b942a5_0b2c0c0d178c4005acbe28725a5ea573-mv2.jpg" />
                 </span>
               </Link>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "91%", "--w": "8.4rem", "--peek": "0.6", "--tilt": "4deg", "--i": "5" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "91%", "--w": "8.6rem", "--peek": "0.62", "--tilt": "5deg", "--i": "5" }}>
               <Link className="tp-lineup__pup" data-pup-friend="true" aria-label="Meet Maltipoo, Maltipoo" to="/puppies/maltipoo-female-2" onMouseEnter={() => setHoveredSeat(5)} onMouseLeave={() => setHoveredSeat(null)}>
                 <span className="tp-lineup__photo">
                   <img alt="Female Maltipoo puppy" loading="eager" decoding="async" style={{ position: "absolute", height: "100%", width: "100%", left: 0, top: 0, objectFit: "cover", objectPosition: "64.6% 42.3%" }} src="https://puppy.instabizweb.com/media/3WJNmn6VVgVu/732f779474/b942a5_2b5dcece361b4589890ae920c66a1b70-mv2.jpg" />
@@ -217,22 +217,22 @@ export default function Home() {
                 <span className="tp-lineup__name font-scrawl" style={{ opacity: hoveredSeat === 1 ? 1 : undefined, transform: hoveredSeat === 1 ? 'translate(var(--tag-x, -50%), -12%)' : undefined }}>Korean Teacup Maltipoo</span>
               </span>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "35%", "--w": "9.2rem", "--peek": "0.7", "--tilt": "-2deg", "--i": "2" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "35%", "--w": "9.3rem", "--peek": "0.72", "--tilt": "-2.5deg", "--i": "2" }}>
               <span className="tp-lineup__ghost" data-tag={hoveredSeat === 2 ? "show" : undefined}>
                 <span className="tp-lineup__name font-scrawl" style={{ opacity: hoveredSeat === 2 ? 1 : undefined, transform: hoveredSeat === 2 ? 'translate(var(--tag-x, -50%), -12%)' : undefined }}>Korean Teacup Poodle</span>
               </span>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "65%", "--w": "9.4rem", "--peek": "0.74", "--tilt": "3deg", "--i": "3" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "65%", "--w": "9.3rem", "--peek": "0.72", "--tilt": "2.5deg", "--i": "3" }}>
               <span className="tp-lineup__ghost" data-tag={hoveredSeat === 3 ? "show" : undefined}>
                 <span className="tp-lineup__name font-scrawl" style={{ opacity: hoveredSeat === 3 ? 1 : undefined, transform: hoveredSeat === 3 ? 'translate(var(--tag-x, -50%), -12%)' : undefined }}>Maltipoo &amp; Cavapoo</span>
               </span>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "77.5%", "--w": "10.6rem", "--peek": "0.82", "--tilt": "-3deg", "--i": "4" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "77.5%", "--w": "10.4rem", "--peek": "0.8", "--tilt": "-3deg", "--i": "4" }}>
               <span className="tp-lineup__ghost" data-tag={hoveredSeat === 4 ? "show" : undefined}>
                 <span className="tp-lineup__name font-scrawl" style={{ opacity: hoveredSeat === 4 ? 1 : undefined, transform: hoveredSeat === 4 ? 'translate(var(--tag-x, -50%), -12%)' : undefined }}>Toy Poodle</span>
               </span>
             </li>
-            <li className="tp-lineup__seat" style={{ "--x": "91%", "--w": "8.4rem", "--peek": "0.6", "--tilt": "4deg", "--i": "5" }}>
+            <li className="tp-lineup__seat" style={{ "--x": "91%", "--w": "8.6rem", "--peek": "0.62", "--tilt": "5deg", "--i": "5" }}>
               <span className="tp-lineup__ghost" data-tag={hoveredSeat === 5 ? "show" : undefined}>
                 <span className="tp-lineup__name font-scrawl" style={{ opacity: hoveredSeat === 5 ? 1 : undefined, transform: hoveredSeat === 5 ? 'translate(var(--tag-x, -50%), -12%)' : undefined }}>Maltipoo</span>
               </span>
