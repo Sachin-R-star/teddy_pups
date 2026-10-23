@@ -241,11 +241,11 @@ export default function Home() {
 
           <div
             data-pup-stop="true"
-            data-pose={isHeroHere ? "peek" : "walk"}
-            data-facing={scrollDir}
+            data-pose="peek"
+            data-facing="right"
             className="pup-stop tp-hero__teddy"
           >
-            <TeddyMascot pose={isHeroHere ? "peek" : "walk"} facing={scrollDir} interactive={true} />
+            <TeddyMascot pose="peek" facing="right" interactive={true} />
           </div>
 
           <div aria-hidden="true" className="tp-quilt">

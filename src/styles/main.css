@@ -130,14 +130,26 @@
 }
 
 .tp-hero__teddy {
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  left: calc(50% - var(--tw) * .7067) !important;
+  transform: none !important;
   bottom: calc(var(--quilt-h) + 26px - var(--tw) * .2733) !important;
   width: var(--tw) !important;
   position: absolute !important;
   z-index: 26 !important;
-  display: flex !important;
-  justify-content: center !important;
+  pointer-events: auto !important;
+}
+
+.tp-hero__teddy > .pup-buddy {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  pointer-events: auto !important;
+}
+
+.tp-hero__teddy svg {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
 }
 
 .tp-lineup {
@@ -246,11 +258,11 @@
 }
 
 .tp-hero[data-here="false"] .tp-hero__teddy {
-  transform: translateX(-50%) translateY(clamp(1.5rem, 5vh, 3.2rem)) !important;
+  transform: translateY(clamp(1.5rem, 5vh, 3.2rem)) !important;
   transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 .tp-hero[data-here="true"] .tp-hero__teddy {
-  transform: translateX(-50%) translateY(0) !important;
+  transform: translateY(0) !important;
   transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
@@ -295,6 +307,50 @@
 .pup-bubble[data-show="true"] {
   opacity: 1 !important;
   transform: translateY(0) scale(1) !important;
+}
+
+/* =========================================================================
+   PATHS / TWO WAYS (FORK & MASCOT POST CENTERING)
+   ========================================================================= */
+.tp-fork {
+  gap: 2.5rem;
+  margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  display: grid;
+  position: relative;
+}
+.tp-fork__teddy {
+  order: 2;
+  justify-self: center;
+  width: clamp(9rem, 40vw, 12rem);
+}
+.tp-fork__post {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .tp-fork {
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(9rem, 16vw, 15rem);
+    padding-bottom: 8.5rem;
+  }
+  .tp-fork__post {
+    border: 3px solid var(--color-cocoa);
+    background: repeating-linear-gradient(90deg, transparent 0 5px, rgba(42, 23, 14, 0.12) 5px 6px), linear-gradient(90deg, #d38f45, #b8742f);
+    border-radius: 0.6rem 0.6rem 0.2rem 0.2rem;
+    width: 1.5rem;
+    display: block;
+    position: absolute;
+    top: -2.2rem;
+    bottom: 2.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .tp-fork__teddy {
+    width: clamp(11rem, 13vw, 13.5rem);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-46%);
+  }
 }
 
 /* =========================================================================
