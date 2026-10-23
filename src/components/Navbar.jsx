@@ -97,85 +97,87 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
-              className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-cocoa bg-milk px-4 text-[0.95rem] font-semibold lg:hidden"
+              className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-cocoa bg-milk px-4 text-[0.95rem] font-semibold lg:hidden transition-transform active:scale-95 shadow-sm"
               aria-haspopup="dialog"
+              aria-label="Open navigation menu"
             >
-              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-              Menu
+              <PawIcon className="size-5 text-cocoa" />
+              <span>Menu</span>
             </button>
 
-            {menuOpen && (
-              <dialog
-                open
-                aria-label="Site menu"
-                className="tp-menu fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none bg-honey p-0 text-cocoa z-[100]"
-              >
-                <div className="flex h-full flex-col gutter pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-scrawl text-lg">where to, friend?</span>
-                    <button
-                      type="button"
-                      onClick={() => setMenuOpen(false)}
-                      className="h-11 rounded-full bg-cocoa px-5 font-semibold text-milk"
-                    >
-                      Close
-                    </button>
-                  </div>
-
-                  <nav aria-label="Mobile" className="mt-10 flex-1">
-                    <ul className="space-y-1">
-                      {navItems.map((item) => {
-                        const isActive = location.pathname === item.path;
-                        return (
-                          <li key={item.path}>
-                            <Link
-                              to={item.path}
-                              aria-current={isActive ? 'page' : undefined}
-                              data-active={isActive ? 'true' : 'false'}
-                              className="tp-menu-link font-plush block py-2 text-[clamp(2.4rem,11vw,3.4rem)]"
-                              onClick={() => setMenuOpen(false)}
-                            >
-                              <span>{item.label}</span>
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </nav>
-
-                  <div className="space-y-3">
-                    <a
-                      href={siteConfig.getWhatsAppUrl()}
-                      className="btn btn-whatsapp w-full"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      WhatsApp us
-                    </a>
-                    <p className="text-center text-sm font-medium">{siteConfig.phone}</p>
-                  </div>
+            {/* Smooth fullscreen menu expanding from top right */}
+            <div
+              aria-label="Site menu"
+              role="dialog"
+              aria-modal="true"
+              className={`tp-menu-drawer fixed inset-0 z-[100] bg-honey text-cocoa transition-all duration-500 ease-out ${
+                menuOpen
+                  ? 'opacity-100 pointer-events-auto'
+                  : 'opacity-0 pointer-events-none'
+              }`}
+              style={{
+                clipPath: menuOpen
+                  ? 'circle(160% at calc(100% - 3.5rem) 2.5rem)'
+                  : 'circle(0% at calc(100% - 3.5rem) 2.5rem)',
+                transition: 'clip-path 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease'
+              }}
+            >
+              <div className="flex h-full flex-col gutter pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-5">
+                <div className="flex items-center justify-between">
+                  <span className="font-scrawl text-lg text-cocoa-soft">where to, friend?</span>
+                  <button
+                    type="button"
+                    onClick={() => setMenuOpen(false)}
+                    className="h-11 rounded-full bg-cocoa px-5 font-semibold text-milk hover:bg-toffee-deep transition-colors"
+                  >
+                    Close
+                  </button>
                 </div>
-              </dialog>
-            )}
+
+                <nav aria-label="Mobile" className="mt-8 flex-1 overflow-y-auto">
+                  <ul className="space-y-1">
+                    {navItems.map((item) => {
+                      const isActive = location.pathname === item.path;
+                      return (
+                        <li key={item.path}>
+                          <Link
+                            to={item.path}
+                            aria-current={isActive ? 'page' : undefined}
+                            data-active={isActive ? 'true' : 'false'}
+                            className="tp-menu-link font-plush flex items-center justify-between py-2 text-[clamp(2.2rem,9vw,3.2rem)] hover:text-toffee-deep transition-colors"
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            <span>{item.label}</span>
+                            {isActive && <PawIcon className="size-6 text-cocoa shrink-0" />}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+
+                <div className="space-y-3 pt-4 border-t border-cocoa/10">
+                  <a
+                    href={siteConfig.getWhatsAppUrl()}
+                    className="btn btn-whatsapp w-full !shadow-md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    WhatsApp us
+                  </a>
+                  <p className="text-center text-sm font-semibold text-cocoa/80">{siteConfig.phone}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Scalloped hem border at bottom of header */}
+        {/* Scalloped hem border at bottom of header - Static (no continuous wave animation) */}
         <svg aria-hidden="true" className="tp-header__hem" width="100%" height="14" preserveAspectRatio="none">
           <defs>
             <pattern id="tp-hem" width="44" height="14" patternUnits="userSpaceOnUse">
               <path d="M0 0H44V2A22 11 0 0 1 0 2Z" className="tp-header__hem-fill" />
               <path d="M0 2A22 11 0 0 0 44 2" className="tp-header__hem-line" />
-              <animateTransform
-                attributeName="patternTransform"
-                type="translate"
-                from="0,0"
-                to="-44,0"
-                dur="2.5s"
-                repeatCount="indefinite"
-              />
             </pattern>
           </defs>
           <rect width="100%" height="14" fill="url(#tp-hem)" />

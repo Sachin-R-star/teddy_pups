@@ -12,6 +12,7 @@ import HappyFamilies from './pages/HappyFamilies';
 import HowItWorks from './pages/HowItWorks';
 import Faq from './pages/Faq';
 import Contact from './pages/Contact';
+import MobileDock from './components/MobileDock';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -54,6 +55,9 @@ export default function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Action Bar for Mobile & Half-Screen */}
+      <MobileDock />
     </Router>
   );
 }
