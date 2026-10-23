@@ -177,7 +177,9 @@
   left: var(--x) !important;
   bottom: calc(var(--quilt-h) - (1 - var(--peek)) * var(--h0)) !important;
   width: calc(var(--w) * var(--seat-k, 1)) !important;
-  transform: translate(-50%, 0) rotate(var(--tilt)) !important;
+  translate: -50% !important;
+  rotate: var(--tilt) !important;
+  transform: none !important;
   position: absolute !important;
   z-index: 20 !important;
 }
